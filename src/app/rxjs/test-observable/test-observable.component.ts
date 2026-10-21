@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnDestroy, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Observable, Subscription, filter, map } from "rxjs";
 import { ToastrService } from "@relynn/ngx-toastr";
 
@@ -6,13 +6,14 @@ import { ToastrService } from "@relynn/ngx-toastr";
     selector: "app-test-observable",
     templateUrl: "./test-observable.component.html",
     styleUrls: ["./test-observable.component.css"],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class TestObservableComponent {
+  private toaster = inject(ToastrService);
+
   firstObservable$: Observable<number>;
 
-  constructor(private toaster: ToastrService) {
+  constructor() {
     this.firstObservable$ = new Observable((observer) => {
       let i = 5;
       setInterval(() => {
