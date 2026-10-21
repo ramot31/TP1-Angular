@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-color-ut',
     templateUrl: './color-ut.component.html',
     styleUrls: ['./color-ut.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class ColorUtComponent {
   divColor = 'red';

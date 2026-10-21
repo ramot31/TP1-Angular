@@ -13,7 +13,7 @@ export const fibonnaci = (n: number): number => {
     selector: 'app-user-list',
     templateUrl: './user-list.component.html',
     styleUrls: ['./user-list.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [FormsModule]
 })
 export class UserListComponent {

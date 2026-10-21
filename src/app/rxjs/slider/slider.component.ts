@@ -6,7 +6,7 @@ import { NgStyle } from "@angular/common";
     selector: "app-slider",
     templateUrl: "./slider.component.html",
     styleUrls: ["./slider.component.css"],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [NgStyle]
 })
 export class SliderComponent {

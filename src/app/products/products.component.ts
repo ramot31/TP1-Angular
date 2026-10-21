@@ -16,7 +16,7 @@ import { AsyncPipe } from "@angular/common";
     selector: "app-products",
     templateUrl: "./products.component.html",
     styleUrls: ["./products.component.css"],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [AsyncPipe]
 })
 export class ProductsComponent {

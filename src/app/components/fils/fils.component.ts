@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output, ChangeDetectionStrategy } from '@angul
     selector: 'app-fils',
     templateUrl: './fils.component.html',
     styleUrls: ['./fils.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class FilsComponent {
   /**

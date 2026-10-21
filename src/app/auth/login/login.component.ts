@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [FormsModule]
 })
 export class LoginComponent {

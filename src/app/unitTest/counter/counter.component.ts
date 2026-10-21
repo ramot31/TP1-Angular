@@ -4,7 +4,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-counter',
     templateUrl: './counter.component.html',
     styleUrls: ['./counter.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class CounterComponent {
   @Input()

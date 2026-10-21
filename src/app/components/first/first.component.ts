@@ -5,7 +5,7 @@ import { SecondComponent } from '../second.component';
     selector: 'app-first',
     templateUrl: './first.component.html',
     styleUrls: ['./first.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [SecondComponent]
 })
 export class FirstComponent {

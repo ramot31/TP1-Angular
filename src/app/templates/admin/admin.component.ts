@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
     selector: 'app-admin',
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [RouterOutlet]
 })
 export class AdminComponent {
