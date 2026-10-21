@@ -20,7 +20,7 @@
     "@angular/router": "^22.2.3",
     "@angular/service-worker": "^22.2.3",
     "@faker-js/faker": "^7.6.0",
-    "@relynn/@relynn/ngx-toastr": "^22.0.0",
+    "@relynn/ngx-toastr": "^22.0.0",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.0.1",
     "font-awesome": "^4.7.0",
