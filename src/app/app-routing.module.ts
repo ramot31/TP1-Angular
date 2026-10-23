@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Route } from "@angular/router";
 import { TodoComponent } from "./todo/todo/todo.component";
 import { MiniWordComponent } from "./directives/mini-word/mini-word.component";
+import { RainbowComponent } from "./components/rainbow/rainbow.component";
 import { ColorComponent } from "./components/color/color.component";
 import { FrontComponent } from "./templates/front/front.component";
 import { AdminComponent } from "./templates/admin/admin.component";
@@ -28,6 +29,7 @@ const routes: Route[] = [
     children: [
       { path: "todo", component: TodoComponent },
       { path: "word", component: MiniWordComponent },
+      { path: "rainbow", component: RainbowComponent },
     ],
   },
   {
