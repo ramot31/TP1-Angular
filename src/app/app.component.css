@@ -1,3 +1,155 @@
-p {
-  color: blue;
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f7f7fb;
+  color: #202033;
+}
+
+.rainbow-page {
+  padding: 5rem 1.5rem 6rem;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 184, 108, 0.2), transparent 28rem),
+    radial-gradient(circle at 90% 20%, rgba(116, 92, 255, 0.18), transparent 30rem),
+    #f7f7fb;
+}
+
+.rainbow-hero {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.rainbow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #e1dcff;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: #6d5bd0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rainbow-badge__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #ff6b9d;
+  box-shadow: 0 0 0 4px #ffe4ef;
+}
+
+h1 {
+  margin: 1.5rem 0 0.75rem;
+  color: #22213b;
+  font-size: clamp(2.6rem, 8vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+h1 span {
+  color: #846dff;
+}
+
+.rainbow-intro {
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  color: #77758d;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.rainbow-card {
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 1.5rem 4rem rgba(61, 48, 117, 0.13);
+  text-align: left;
+  backdrop-filter: blur(14px);
+}
+
+.rainbow-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: #846dff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  color: #292742;
+  font-size: clamp(1.35rem, 4vw, 2rem);
+}
+
+.color-orb {
+  flex: 0 0 3.25rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: #4d4a66;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+#rainbow-input {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 2px solid #7c3aed;
+  border-radius: 0.9rem;
+  outline: none;
+  background: #fff;
+  font-size: 1.05rem;
+  transition: border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+#rainbow-input:focus {
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+}
+
+#rainbow-input::placeholder {
+  color: #b2afc4;
+}
+
+.rainbow-help {
+  margin: 0.8rem 0 1.4rem;
+  color: #8b889e;
+  font-size: 0.82rem;
+}
+
+.rainbow-spectrum {
+  height: 0.35rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff5f6d, #ffc371, #64d8cb, #7c6cff, #f368e0);
+}
+
+@media (max-width: 520px) {
+  .rainbow-page {
+    padding-top: 3rem;
+  }
+
+  .rainbow-card__header {
+    align-items: flex-start;
+  }
 }
