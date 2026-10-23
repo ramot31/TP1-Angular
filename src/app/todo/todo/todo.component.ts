@@ -1,30 +1,35 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { Todo } from '../model/todo';
-import { TodoService } from '../service/todo.service';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TodoService } from '../service/todo.service';
+import { TodoStatus } from '../model/todo';
 
 @Component({
-    selector: 'app-todo',
-    templateUrl: './todo.component.html',
-    styleUrls: ['./todo.component.css'],
-    providers: [TodoService],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FormsModule]
+  selector: 'app-todo',
+  templateUrl: './todo.component.html',
+  styleUrls: ['./todo.component.css'],
+  imports: [FormsModule],
 })
 export class TodoComponent {
   private todoService = inject(TodoService);
 
-  todos: Todo[] = [];
-  todo = new Todo();
-  constructor() {
-    this.todos = this.todoService.getTodos();
-  }
-  addTodo() {
-    this.todoService.addTodo(this.todo);
-    this.todo = new Todo();
+  readonly waiting = this.todoService.waiting;
+  readonly inProgress = this.todoService.inProgress;
+  readonly done = this.todoService.done;
+
+  name = '';
+  content = '';
+
+  readonly statusOptions: TodoStatus[] = ['waiting', 'in progress', 'done'];
+
+  addTodo(): void {
+    if (!this.name.trim() || !this.content.trim()) return;
+    this.todoService.addTodo(this.name, this.content);
+    this.name = '';
+    this.content = '';
   }
 
-  deleteTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo);
+  updateStatus(id: number, event: Event): void {
+    const status = (event.target as HTMLSelectElement).value as TodoStatus;
+    this.todoService.updateStatus(id, status);
   }
 }
