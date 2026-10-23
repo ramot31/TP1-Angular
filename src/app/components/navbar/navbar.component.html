@@ -67,6 +67,18 @@
                         routerLinkActive="active text-primary"
                         >Rh</a
                         >
+                      <a
+                        class="nav-link"
+                        [routerLink]="['rainbow']"
+                        routerLinkActive="active text-primary"
+                        >Rainbow input</a
+                        >
+                        <a
+                          class="nav-link"
+                          [routerLink]="['ttc']"
+                          routerLinkActive="active text-primary"
+                          >TTC Calculator</a
+                          >
                         @if (!authService.isAuthenticated()) {
                           <a
                             class="nav-link"
