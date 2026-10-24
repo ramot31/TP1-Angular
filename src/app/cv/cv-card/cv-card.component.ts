@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, computed } from '@angular/core';
 import { Cv } from '../model/cv';
 import { EmbaucheService } from '../services/embauche.service';
 import { ToastrService } from '@relynn/ngx-toastr';
@@ -16,20 +16,28 @@ export class CvCardComponent {
   private embaucheService = inject(EmbaucheService);
   private toastr = inject(ToastrService);
 
-  @Input() cv: Cv | null = null;
+  readonly cv = input<Cv | null>(null);
 
-  ngOnInit() {}
+  /**
+   * true si le cv affiché est déjà pré embauché
+   */
+  readonly isEmbauche = computed(() => {
+    const cv = this.cv();
+    if (!cv) {
+      return false;
+    }
+    return this.embaucheService.isEmbauche(cv);
+  });
+
   embaucher() {
-    if (this.cv) {
-      if (this.embaucheService.embauche(this.cv)) {
-        this.toastr.success(
-          `${this.cv?.firstname} ${this.cv?.name} a été pré embauché`
-        );
-      } else {
-        this.toastr.warning(
-          `${this.cv?.firstname} ${this.cv?.name} est déjà pré embauché`
-        );
-      }
+    const cv = this.cv();
+    if (!cv) {
+      return;
+    }
+    if (this.embaucheService.embauche(cv)) {
+      this.toastr.success(`${cv.firstname} ${cv.name} a été pré embauché`);
+    } else {
+      this.toastr.warning(`${cv.firstname} ${cv.name} est déjà pré embauché`);
     }
   }
 }

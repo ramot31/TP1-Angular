@@ -1,4 +1,4 @@
-@if (cv) {
+@if (cv(); as cv) {
   <div class="card-container">
     <div class="card">
       <div class="front">
@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="footer">
-          <button (click)="embaucher()" class="m-1 btn btn-primary">
+          <button (click)="embaucher()" [disabled]="isEmbauche()" class="m-1 btn btn-primary">
             embaucher
           </button>
           <button [routerLink]="['/cv', cv.id]" class=" m-1 btn btn-dark">

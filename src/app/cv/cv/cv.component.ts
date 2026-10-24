@@ -1,5 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
-import { Cv } from "../model/cv";
+import { Component, ChangeDetectionStrategy, inject, effect, untracked } from "@angular/core";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "@relynn/ngx-toastr";
 import { CvService } from "../services/cv.service";
@@ -19,25 +18,23 @@ export class CvComponent {
   private toastr = inject(ToastrService);
   private cvService = inject(CvService);
 
-  cvs: Cv[] = [];
-  selectedCv: Cv | null = null;
-  /*   selectedCv: Cv | null = null; */
+  cvs = this.cvService.cvs;
+  selectedCv = this.cvService.selectedCv;
   date = new Date();
 
   constructor() {
-    this.cvService.getCvs().subscribe({
-      next: (cvs) => {
-        this.cvs = cvs;
-      },
-      error: () => {
-        this.cvs = this.cvService.getFakeCvs();
-        this.toastr.error(`
+    this.cvService.loadCvs();
+    // effet de bord : afficher un toast quand les données deviennent fictives
+    effect(() => {
+      if (this.cvService.isFakeData()) {
+        untracked(() =>
+          this.toastr.error(`
           Attention!! Les données sont fictives, problème avec le serveur.
-          Veuillez contacter l'admin.`);
-      },
+          Veuillez contacter l'admin.`)
+        );
+      }
     });
     this.logger.logger("je suis le cvComponent");
     this.toastr.info("Bienvenu dans notre CvTech");
-    this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
   }
 }
