@@ -1,23 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Cv } from '../model/cv';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmbaucheService {
-  private embauchees: Cv[] = [];
-
-  constructor() {}
+  /**
+   * La liste des cvs pré embauchés (modifiable uniquement dans ce service)
+   */
+  #embauchees = signal<Cv[]>([]);
 
   /**
-   *
-   * Retourne la liste des embauchees
-   *
-   * @returns CV[]
-   *
+   * La liste des cvs pré embauchés en lecture seule pour les composants
    */
-  getEmbauchees(): Cv[] {
-    return this.embauchees;
+  embauchees = this.#embauchees.asReadonly();
+
+  /**
+   * Indique si le cv est déjà pré embauché (comparaison par id)
+   *
+   * @param cv : Cv
+   * @returns boolean
+   */
+  isEmbauche(cv: Cv): boolean {
+    return this.#embauchees().some((e) => e.id === cv.id);
   }
 
   /**
@@ -29,10 +34,10 @@ export class EmbaucheService {
    * @returns boolean
    */
   embauche(cv: Cv): boolean {
-    if (this.embauchees.indexOf(cv) == -1) {
-      this.embauchees.push(cv);
-      return true;
+    if (this.isEmbauche(cv)) {
+      return false;
     }
-    return false;
+    this.#embauchees.update((liste) => [...liste, cv]);
+    return true;
   }
 }
