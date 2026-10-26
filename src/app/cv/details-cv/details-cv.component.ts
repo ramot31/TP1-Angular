@@ -14,7 +14,14 @@ import { catchError, switchMap } from 'rxjs/operators';
   styleUrls: ['./details-cv.component.css'],
 })
 export class DetailsCvComponent implements OnInit {
-  cv$!: Observable<Cv>;
+  cv$: Observable<Cv>= this.activatedRoute.params.pipe(
+      switchMap((params) => this.cvService.getCvById(+params['id'])),
+      catchError(() => {
+        this.toastr.error(`CV introuvable ou problème serveur.`);
+        this.router.navigate([APP_ROUTES.cv]);
+        return EMPTY;
+      })
+    );;
 
   constructor(
     private cvService: CvService,
@@ -25,14 +32,7 @@ export class DetailsCvComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cv$ = this.activatedRoute.params.pipe(
-      switchMap((params) => this.cvService.getCvById(+params['id'])),
-      catchError(() => {
-        this.toastr.error(`CV introuvable ou problème serveur.`);
-        this.router.navigate([APP_ROUTES.cv]);
-        return EMPTY;
-      })
-    );
+    this.cv$ 
   }
 
   deleteCv(cv: Cv): void {
