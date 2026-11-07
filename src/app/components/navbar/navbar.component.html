@@ -5,13 +5,13 @@
       [routerLink]="['']"
       [routerLinkActiveOptions]="{ exact: true }"
       routerLinkActive="active text-primary"
-      >cvStartingAdvProject</a
+      >TP Angular</a
       >
       <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="['']navbarNavAltMarkup"
+        data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup"
         aria-expanded="false"
         aria-label="Toggle navigation"
@@ -67,6 +67,18 @@
                         routerLinkActive="active text-primary"
                         >Rh</a
                         >
+                      <a
+                        class="nav-link"
+                        [routerLink]="['rainbow']"
+                        routerLinkActive="active text-primary"
+                        >Rainbow input</a
+                        >
+                        <a
+                          class="nav-link"
+                          [routerLink]="['ttc']"
+                          routerLinkActive="active text-primary"
+                          >TTC Calculator</a
+                          >
                         @if (!authService.isAuthenticated()) {
                           <a
                             class="nav-link"

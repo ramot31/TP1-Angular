@@ -1,6 +1,6 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable, inject, signal } from "@angular/core";
 import { Cv } from "../model/cv";
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { API } from "../../../config/api.config";
 
@@ -10,31 +10,71 @@ import { API } from "../../../config/api.config";
 export class CvService {
   private http = inject(HttpClient);
 
-  private cvs: Cv[] = [];
   /**
-   * Le subject permettant de créer le flux des cvs sélectionnés
+   * La liste fictive de cvs, utilisée si le serveur ne répond pas
    */
-  #selectCvSuject$ = new Subject<Cv>();
+  #fakeCvs: Cv[] = [
+    new Cv(1, "aymen", "sellaouti", "teacher", "as.jpg", "1234", 40),
+    new Cv(2, "skander", "sellaouti", "enfant", "       ", "1234", 4),
+  ];
+
   /**
-   * Le flux des cvs sélectionnés
+   * La liste des cvs (modifiable uniquement dans ce service)
    */
-  selectCv$ = this.#selectCvSuject$.asObservable();
-  constructor() {
-    this.cvs = [
-      new Cv(1, "aymen", "sellaouti", "teacher", "as.jpg", "1234", 40),
-      new Cv(2, "skander", "sellaouti", "enfant", "       ", "1234", 4),
-    ];
+  #cvs = signal<Cv[]>([]);
+  /**
+   * La liste des cvs en lecture seule pour les composants
+   */
+  cvs = this.#cvs.asReadonly();
+
+  /**
+   * Le cv sélectionné (null si aucun cv n'est sélectionné)
+   */
+  #selectedCv = signal<Cv | null>(null);
+  selectedCv = this.#selectedCv.asReadonly();
+
+  /**
+   * true si la liste affichée contient les cvs fictifs (problème serveur)
+   */
+  #isFakeData = signal(false);
+  isFakeData = this.#isFakeData.asReadonly();
+
+  /**
+   * Charge les cvs de l'API et les range dans le signal cvs.
+   * En cas d'erreur, on met les cvs fictifs.
+   */
+  loadCvs(): void {
+    this.#isFakeData.set(false);
+    this.getCvs().subscribe({
+      next: (cvs) => {
+        this.#cvs.set(cvs);
+      },
+      error: () => {
+        this.#cvs.set(this.#fakeCvs);
+        this.#isFakeData.set(true);
+      },
+    });
   }
 
   /**
+   * Ajoute un cv à la liste (après un ajout réussi sur l'API)
    *
-   * Retourne un liste fictive de cvs
-   *
-   * @returns CV[]
-   *
+   * @param cv : Cv
    */
-  getFakeCvs(): Cv[] {
-    return this.cvs;
+  addToList(cv: Cv): void {
+    this.#cvs.update((liste) => [...liste, cv]);
+  }
+
+  /**
+   * Retire un cv de la liste (après une suppression réussie sur l'API)
+   *
+   * @param id : number
+   */
+  removeFromList(id: number): void {
+    this.#cvs.update((liste) => liste.filter((cv) => cv.id !== id));
+    if (this.#selectedCv()?.id === id) {
+      this.#selectedCv.set(null);
+    }
   }
 
   /**
@@ -77,33 +117,6 @@ export class CvService {
   }
 
   /**
-   *
-   * Cherche un cv avec son id dans lai liste fictive de cvs
-   *
-   * @param id
-   * @returns Cv | null
-   */
-  findCvById(id: number): Cv | null {
-    return this.cvs.find((cv) => cv.id == id) ?? null;
-  }
-
-  /**
-   *
-   * Supprime un cv s'il le trouve
-   *
-   * @param cv : Cv
-   * @returns boolean
-   */
-  deleteCv(cv: Cv): boolean {
-    const index = this.cvs.indexOf(cv);
-    if (index > -1) {
-      this.cvs.splice(index, 1);
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * Recherche les cvs dont le name contient la chaine name passée en paramètre
    * @param name : string
    * @returns cvs Cv[]
@@ -126,11 +139,11 @@ export class CvService {
   }
 
   /**
-   * Permet d'ajouter un cv au flux des cvs sélectionnés
+   * Change le cv sélectionné
    *
-   * @param cv : Le cv à ajouter dans le flux des cvs sélectionnés
+   * @param cv : Le cv sélectionné
    */
-  selectCv(cv: Cv) {
-    this.#selectCvSuject$.next(cv);
+  selectCv(cv: Cv): void {
+    this.#selectedCv.set(cv);
   }
 }

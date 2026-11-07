@@ -11,10 +11,14 @@ import { AddCvComponent } from "./cv/add-cv/add-cv.component";
 import { CvComponent } from "./cv/cv/cv.component";
 import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
+import { RainbowInputComponent } from "./components/rainbow-input/rainbow-input.component";
+import { TtcComponent } from "./components/ttc/ttc.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "rh", component: RhComponent },
+  { path: "rainbow", component: RainbowInputComponent },
+  { path: "ttc", component: TtcComponent },
   {
     path: "cv",
     component: CvComponent,
