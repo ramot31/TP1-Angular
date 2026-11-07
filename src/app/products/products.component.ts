@@ -1,11 +1,12 @@
 import { Component } from "@angular/core";
 import {
-  BehaviorSubject,
   Observable,
+  Subject,
   concatMap,
   map,
-  takeWhile,
   scan,
+  startWith,
+  takeWhile,
 } from "rxjs";
 import { Product } from "./dto/product.dto";
 import { ProductService } from "./services/product.service";
@@ -17,13 +18,15 @@ import { Settings } from "./dto/product-settings.dto";
   styleUrls: ["./products.component.css"],
 })
 export class ProductsComponent {
-  /* Todo : Faire le nécessaire pour créer le flux des produits à afficher */
-  /* Tips : vous pouvez voir les différents imports non utilisés et vous en inspirer */
- private settings$ = new BehaviorSubject<Settings>({ limit: 12, skip: 0 });
+  private readonly limit = 12;
+  private loadMore$ = new Subject<void>();
   products$: Observable<Product[]>;
 
   constructor(private productService: ProductService) {
-    this.products$ = this.settings$.pipe(
+    this.products$ = this.loadMore$.pipe(
+      startWith(undefined),
+      scan((skip) => skip + this.limit, -this.limit),
+      map((skip): Settings => ({ limit: this.limit, skip })),
       concatMap((settings) => this.productService.getProducts(settings)),
       takeWhile((res) => res.skip + res.limit < res.total, true),
       map((res) => res.products),
@@ -32,7 +35,6 @@ export class ProductsComponent {
   }
 
   loadMore() {
-    const current = this.settings$.value;
-    this.settings$.next({ ...current, skip: current.skip + current.limit });
+    this.loadMore$.next();
   }
 }
