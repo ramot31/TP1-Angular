@@ -1,27 +1,43 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PRODUCTS } from './product.data';
-import { BehaviorSubject } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { PRODUCTS, ProductCategory } from './product.data';
 
 @Component({
   selector: 'app-products-filter',
-  imports: [AsyncPipe],
+  imports: [],
   standalone: true,
   templateUrl: './products-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './products-filter.component.css',
 })
 export class ProductsFilterComponent {
-  readonly products = PRODUCTS;
-  protected categories = this.products.map((p) => p.category);
+  // A. Liste originale stockée dans un Signal
+  products = signal<ProductCategory[]>(PRODUCTS);
 
-  protected search = new BehaviorSubject<string>('');
-  protected category = new BehaviorSubject<string>('');
+  // B. Catégories uniques dynamiques avec 'All' en première option
+  categories = computed(() => [
+    'All',
+    ...Array.from(new Set(this.products().map((p) => p.category))),
+  ]);
 
+  // C. Filtres modifiables indépendants (Writable Signals)
+  searchQuery = signal<string>('');
+  selectedCategory = signal<string>('All');
 
+  // D. Filtrage combiné réactif (Computed Signal)
+  filteredProducts = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    const category = this.selectedCategory();
 
-  protected reset() {
-    this.search.next('');
-    this.category.next('');
+    return this.products().filter((product) => {
+      const matchesCategory = category === 'All' || product.category === category;
+      const matchesQuery = product.name.toLowerCase().includes(query);
+      return matchesCategory && matchesQuery;
+    });
+  });
+
+  // E. Réinitialisation des filtres
+  reset(): void {
+    this.searchQuery.set('');
+    this.selectedCategory.set('All');
   }
 }

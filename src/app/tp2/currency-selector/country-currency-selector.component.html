@@ -1,10 +1,35 @@
 <h1>Currency Selector</h1>
 <hr>
-<select class="form-control" >
-    <option>country</option>
-</select>
-<select class="form-control">
 
-  <option >currency</option>
+<div class="row g-3">
+  <div class="col-md-6">
+    <label class="form-label fw-bold">Pays :</label>
+    <select
+      class="form-select form-control"
+      [value]="selectedCountry().name"
+      (change)="onCountryChange($any($event.target).value)"
+    >
+      @for (country of countries; track country.name) {
+        <option [value]="country.name">{{ country.name }}</option>
+      }
+    </select>
+  </div>
 
-</select>
+  <div class="col-md-6">
+    <label class="form-label fw-bold">Devise :</label>
+    <select
+      class="form-select form-control"
+      [value]="selectedCurrency()"
+      (change)="selectedCurrency.set($any($event.target).value)"
+    >
+      @for (currency of availableCurrencies(); track currency) {
+        <option [value]="currency">{{ currency }}</option>
+      }
+    </select>
+  </div>
+</div>
+
+<div class="mt-4 p-3 bg-light rounded border">
+  <p class="mb-1"><strong>Pays sélectionné :</strong> {{ selectedCountry().name }}</p>
+  <p class="mb-0"><strong>Devise active :</strong> {{ selectedCurrency() }}</p>
+</div>

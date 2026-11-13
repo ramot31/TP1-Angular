@@ -13,12 +13,16 @@ import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
 import { RainbowInputComponent } from "./components/rainbow-input/rainbow-input.component";
 import { TtcComponent } from "./components/ttc/ttc.component";
+import { CountryCurrencySelectorComponent } from "./tp2/currency-selector/country-currency-selector.component";
+import { ProductsFilterComponent } from "./tp2/products-filter/products-filter.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "rh", component: RhComponent },
   { path: "rainbow", component: RainbowInputComponent },
   { path: "ttc", component: TtcComponent },
+  { path: "tp2/currency", component: CountryCurrencySelectorComponent },
+  { path: "tp2/filter", component: ProductsFilterComponent },
   {
     path: "cv",
     component: CvComponent,
