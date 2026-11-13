@@ -5,7 +5,7 @@ import { from, of } from 'rxjs';
     selector: 'app-from-of',
     templateUrl: './from-of.component.html',
     styleUrls: ['./from-of.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class FromOfComponent {
   data = [1, 2, 3, 4, 5, 6, 7, 8, 9];

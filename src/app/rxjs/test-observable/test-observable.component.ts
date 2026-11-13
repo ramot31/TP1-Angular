@@ -6,7 +6,7 @@ import { ToastrService } from "@relynn/ngx-toastr";
     selector: "app-test-observable",
     templateUrl: "./test-observable.component.html",
     styleUrls: ["./test-observable.component.css"],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class TestObservableComponent {
   private toaster = inject(ToastrService);

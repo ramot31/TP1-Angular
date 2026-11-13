@@ -5,7 +5,7 @@ import { FilsComponent } from '../fils/fils.component';
     selector: 'app-pere',
     templateUrl: './pere.component.html',
     styleUrls: ['./pere.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [FilsComponent]
 })
 export class PereComponent {

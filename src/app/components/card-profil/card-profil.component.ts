@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
     selector: 'app-card-profil',
     templateUrl: './card-profil.component.html',
     styleUrls: ['./card-profil.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [FormsModule]
 })
 export class CardProfilComponent {

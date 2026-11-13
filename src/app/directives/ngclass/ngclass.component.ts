@@ -6,7 +6,7 @@ import { HighlightDirective } from '../highlight.directive';
     selector: 'app-ngclass',
     templateUrl: './ngclass.component.html',
     styleUrls: ['./ngclass.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [NgClass, HighlightDirective]
 })
 export class NgclassComponent {

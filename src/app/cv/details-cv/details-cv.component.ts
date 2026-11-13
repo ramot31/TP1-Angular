@@ -11,7 +11,7 @@ import { DefaultImagePipe } from '../pipes/default-image.pipe';
     selector: 'app-details-cv',
     templateUrl: './details-cv.component.html',
     styleUrls: ['./details-cv.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [DefaultImagePipe]
 })
 export class DetailsCvComponent implements OnInit {

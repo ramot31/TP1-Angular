@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
     selector: 'app-front',
     templateUrl: './front.component.html',
     styleUrls: ['./front.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [RouterOutlet]
 })
 export class FrontComponent {

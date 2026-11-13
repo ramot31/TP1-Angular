@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
 import { ColorComponent } from './color.component';
 
 describe('ColorComponent', () => {
@@ -8,9 +8,11 @@ describe('ColorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [ColorComponent]
-})
-    .compileComponents();
+      imports: [ColorComponent],
+      providers: [
+        { provide: ActivatedRoute, useValue: { snapshot: { params: {} } } },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ColorComponent);
     component = fixture.componentInstance;

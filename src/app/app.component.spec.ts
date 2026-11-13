@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { ToastrModule } from '@relynn/ngx-toastr';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [AppComponent],
-}).compileComponents();
+      imports: [AppComponent, ToastrModule.forRoot()],
+      providers: [provideRouter([])],
+    }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -14,18 +17,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'AdvancedTraining'`, () => {
+  it(`should have as title 'Starting Advanced Topics'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('AdvancedTraining');
+    expect(app.title).toEqual('Starting Advanced Topics');
   });
 
-  it('should render title', () => {
+  it('should render the footer', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain(
-      'AdvancedTraining app is running!'
-    );
+    expect(compiled.querySelector('h2')?.textContent).toContain('Footer');
   });
 });

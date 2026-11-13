@@ -5,7 +5,7 @@ import { NgStyle } from '@angular/common';
     selector: 'app-ngstyle',
     templateUrl: './ngstyle.component.html',
     styleUrls: ['./ngstyle.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [NgStyle]
 })
 export class NgstyleComponent {

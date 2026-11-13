@@ -8,7 +8,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     </p>
   `,
     styles: [],
-    changeDetection: ChangeDetectionStrategy.Eager
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class SecondComponent {
 

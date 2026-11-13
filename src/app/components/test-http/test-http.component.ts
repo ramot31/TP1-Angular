@@ -14,7 +14,7 @@ export interface TodoModel {
     selector: 'app-test-http',
     templateUrl: './test-http.component.html',
     styleUrls: ['./test-http.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     imports: [AsyncPipe, JsonPipe]
 })
 export class TestHttpComponent {

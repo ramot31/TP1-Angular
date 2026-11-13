@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
+import { ToastrModule } from '@relynn/ngx-toastr';
 import { CvCardComponent } from './cv-card.component';
 
 describe('CvCardComponent', () => {
@@ -8,9 +9,9 @@ describe('CvCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [CvCardComponent]
-})
-    .compileComponents();
+      imports: [CvCardComponent, ToastrModule.forRoot()],
+      providers: [provideRouter([])],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CvCardComponent);
     component = fixture.componentInstance;
