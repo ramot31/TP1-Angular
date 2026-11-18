@@ -12,6 +12,8 @@
           routerLinkActive="active text-primary">Home</a>
         <a class="nav-link" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['cv']"
           routerLinkActive="active text-primary">Cv</a>
+        <a class="nav-link" [routerLink]="['autocomplete']"
+          routerLinkActive="active text-primary">Autocomplete</a>
         <a *ngIf="authService.isAuthenticated()" class="nav-link" [routerLink]="['cv/add']"
           routerLinkActive="active text-primary">Add Cv</a>
         <a class="nav-link" [routerLink]="['rainbow']" routerLinkActive="active text-primary">Rainbow</a>

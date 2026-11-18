@@ -12,7 +12,7 @@ export class CvService {
   /**
    * Le subject permettant de créer le flux des cvs sélectionnés
    */
-  #selectCvSuject$ = new Subject<Cv>();
+  #selectCvSuject$ = new Subject<Cv | null>();
   /**
    * Le flux des cvs sélectionnés
    */
@@ -106,10 +106,10 @@ export class CvService {
    * @param name : string
    * @returns cvs Cv[]
    */
-  selectByName(name: string) {
+  selectByName(name: string): Observable<Cv[]> {
     const search = `{"where":{"name":{"like":"%${name}%"}}}`;
     const params = new HttpParams().set("filter", search);
-    return this.http.get<any>(API.cv, { params });
+    return this.http.get<Cv[]>(API.cv, { params });
   }
   /**
    * Recherche les cvs dont la valeur est égale à la chaine passée en paramètre
@@ -130,5 +130,9 @@ export class CvService {
    */
   selectCv(cv: Cv) {
     this.#selectCvSuject$.next(cv);
+  }
+
+  clearSelectedCv(): void {
+    this.#selectCvSuject$.next(null);
   }
 }

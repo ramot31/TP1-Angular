@@ -14,10 +14,12 @@ import { CvComponent } from "./cv/cv/cv.component";
 import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
 import { ProductsComponent } from "./products/products.component";
+import { AutocompleteComponent } from "./cv/autocomplete/autocomplete.component";
 
 const routes: Route[] = [
   { path: "login", component: LoginComponent },
   { path: "rh", component: RhComponent },
+  { path: "autocomplete", component: AutocompleteComponent },
   {
     path: "cv",
     component: CvComponent,

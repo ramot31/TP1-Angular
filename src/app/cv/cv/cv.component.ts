@@ -13,7 +13,7 @@ import { catchError, tap } from "rxjs/operators";
 })
 export class CvComponent implements OnInit {
   cvs$!: Observable<Cv[]>;
-  selectedCv$!: Observable<Cv>;
+  selectedCv$!: Observable<Cv | null>;
   date = new Date();
 
   constructor(

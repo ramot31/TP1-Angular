@@ -1,3 +1,69 @@
 <form [formGroup]="form">
-  <input type="text" class="form-control" formControlName="search" />
+  <input
+    type="text"
+    class="form-control"
+    formControlName="search"
+    placeholder="Rechercher un CV par nom"
+    (input)="onSearchInput(search.value)"
+  />
+
+  <div
+    class="list-group autocomplete-results"
+    *ngIf="showResults && search.value?.trim() && (cvs$ | async) as cvs"
+  >
+    <button
+      type="button"
+      class="list-group-item list-group-item-action"
+      *ngFor="let cv of cvs"
+      (click)="selectCv(cv)"
+    >
+      <span class="d-flex align-items-center">
+        <img
+          class="autocomplete-avatar me-2"
+          [src]="'assets/images/' + (cv.path | defaultImage)"
+          [alt]="cv.firstname + ' ' + cv.name"
+        />
+        <span>
+          <strong>{{ cv.firstname }} {{ cv.name }}</strong>
+          <small class="d-block text-muted">{{ cv.job }}</small>
+        </span>
+      </span>
+    </button>
+  </div>
 </form>
+
+<ng-container *ngIf="selectedCv$ | async as cv">
+  <div class="cv-details mt-4">
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-secondary float-end"
+      (click)="closeDetails()"
+      aria-label="Fermer les détails"
+    >
+      Fermer
+    </button>
+    <h4 class="text-center">Cv {{ cv.firstname }} {{ cv.name }}</h4>
+
+    <div class="d-flex justify-content-center my-3">
+      <img
+        class="rounded-circle cv-avatar"
+        [src]="'assets/images/' + (cv.path | defaultImage)"
+        [alt]="cv.firstname + ' ' + cv.name"
+      />
+    </div>
+
+    <h5 class="mb-3">
+      <span class="fa fa-clock-o me-2"></span>
+      Informations
+    </h5>
+    <table class="table table-hover table-striped">
+      <tbody>
+        <tr><td><strong>Name</strong> {{ cv.name }}</td></tr>
+        <tr><td><strong>Firstname</strong> {{ cv.firstname }}</td></tr>
+        <tr><td><strong>Job</strong> {{ cv.job }}</td></tr>
+        <tr><td><strong>Age</strong> {{ cv.age }}</td></tr>
+        <tr><td><strong>Cin</strong> {{ cv.cin }}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
