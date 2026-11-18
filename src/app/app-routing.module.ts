@@ -13,6 +13,7 @@ import { AddCvComponent } from "./cv/add-cv/add-cv.component";
 import { CvComponent } from "./cv/cv/cv.component";
 import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
+import { ProductsComponent } from "./products/products.component";
 
 const routes: Route[] = [
   { path: "login", component: LoginComponent },
@@ -30,6 +31,7 @@ const routes: Route[] = [
       { path: "todo", component: TodoComponent },
       { path: "word", component: MiniWordComponent },
       { path: "rainbow", component: RainbowComponent },
+      { path: "products", component: ProductsComponent },
     ],
   },
   {
