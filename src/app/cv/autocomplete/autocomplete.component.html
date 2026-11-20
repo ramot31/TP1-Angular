@@ -7,32 +7,34 @@
     (input)="onSearchInput(search.value)"
   />
 
-  <div
-    class="list-group autocomplete-results"
-    *ngIf="showResults && search.value?.trim() && (cvs$ | async) as cvs"
-  >
-    <button
-      type="button"
-      class="list-group-item list-group-item-action"
-      *ngFor="let cv of cvs"
-      (click)="selectCv(cv)"
-    >
-      <span class="d-flex align-items-center">
-        <img
-          class="autocomplete-avatar me-2"
-          [src]="'assets/images/' + (cv.path | defaultImage)"
-          [alt]="cv.firstname + ' ' + cv.name"
-        />
-        <span>
-          <strong>{{ cv.firstname }} {{ cv.name }}</strong>
-          <small class="d-block text-muted">{{ cv.job }}</small>
-        </span>
-      </span>
-    </button>
-  </div>
+  @if (cvs$ | async; as cvs) {
+    @if (showResults && search.value?.trim()) {
+      <div class="list-group autocomplete-results">
+        @for (cv of cvs; track cv.id) {
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            (click)="selectCv(cv)"
+          >
+            <span class="d-flex align-items-center">
+              <img
+                class="autocomplete-avatar me-2"
+                [src]="'assets/images/' + (cv.path | defaultImage)"
+                [alt]="cv.firstname + ' ' + cv.name"
+              />
+              <span>
+                <strong>{{ cv.firstname }} {{ cv.name }}</strong>
+                <small class="d-block text-muted">{{ cv.job }}</small>
+              </span>
+            </span>
+          </button>
+        }
+      </div>
+    }
+  }
 </form>
 
-<ng-container *ngIf="selectedCv$ | async as cv">
+@if (selectedCv$ | async; as cv) {
   <div class="cv-details mt-4">
     <button
       type="button"
@@ -66,4 +68,4 @@
       </tbody>
     </table>
   </div>
-</ng-container>
+}

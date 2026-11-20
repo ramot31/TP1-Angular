@@ -33,7 +33,6 @@ export class AutocompleteComponent {
 
   cvs$: Observable<Cv[]> = this.search.valueChanges.pipe(
     debounceTime(300),
-    distinctUntilChanged(),
     map((name) => (name ?? "").trim()),
     distinctUntilChanged(),
     filter((name) => name.length > 0),
