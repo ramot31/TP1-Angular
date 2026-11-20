@@ -7,7 +7,8 @@ import { bootstrapApplication } from "@angular/platform-browser";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "@relynn/ngx-toastr";
-import { provideRouter } from "@angular/router";
+import { provideRouter, withPreloading } from "@angular/router";
+import { SelectivePreloadingStrategy } from "./app/shared/strategies/selective-preloading.strategy";
 import { routes } from "./app/app.routes";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { AppComponent } from "./app/app.component";
@@ -23,7 +24,7 @@ bootstrapApplication(AppComponent, {
             // or after 30 seconds (whichever comes first).
             registrationStrategy: "registerWhenStable:30000",
         })),
-        provideRouter(routes),
+        provideRouter(routes, withPreloading(SelectivePreloadingStrategy)),
         AuthInterceptorProvider,
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
     ]

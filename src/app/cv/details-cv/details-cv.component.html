@@ -1,4 +1,8 @@
-@if (cv(); as cv) {
+@if (cvResource.error()) {
+  <div class="alert alert-danger">Ce cv est introuvable.</div>
+} @else if (cvResource.isLoading()) {
+  <div class="text-center text-muted p-3">Chargement du cv...</div>
+} @else if (cvResource.value(); as cv) {
   <div class="d-flex justify-content-center">
     <div class="col-lg-8 push-lg-4">
       <div class="tab-content p-b-3">

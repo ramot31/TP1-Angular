@@ -1,8 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { Cv } from '../model/cv';
-import { CvService } from '../services/cv.service';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from '@relynn/ngx-toastr';
+import { map } from 'rxjs';
+import { Cv } from '../model/cv';
+import { CvService } from '../services/cv.service';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { AuthService } from '../../auth/services/auth.service';
 import { DefaultImagePipe } from '../pipes/default-image.pipe';
@@ -14,26 +16,22 @@ import { DefaultImagePipe } from '../pipes/default-image.pipe';
     changeDetection: ChangeDetectionStrategy.Default,
     imports: [DefaultImagePipe]
 })
-export class DetailsCvComponent implements OnInit {
+export class DetailsCvComponent {
   private cvService = inject(CvService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
   authService = inject(AuthService);
 
-  readonly cv = signal<Cv | null>(null);
+  private readonly id = toSignal(
+    this.activatedRoute.paramMap.pipe(map((params) => Number(params.get('id'))))
+  );
 
-  ngOnInit() {
-    const id = this.activatedRoute.snapshot.params['id'];
-    this.cvService.getCvById(+id).subscribe({
-        next: (cv) => {
-          this.cv.set(cv);
-        },
-        error: (e) => {
-          this.router.navigate([APP_ROUTES.cv]);
-        },
-      });
-  }
+  readonly cvResource = rxResource({
+    params: () => this.id(),
+    stream: ({ params: id }) => this.cvService.getCvById(id),
+  });
+
   deleteCv(cv: Cv) {
     this.cvService.deleteCvById(cv.id).subscribe({
       next: () => {

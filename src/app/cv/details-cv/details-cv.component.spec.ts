@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { ToastrModule } from '@relynn/ngx-toastr';
 import { of } from 'rxjs';
 import { Cv } from '../model/cv';
@@ -17,7 +17,7 @@ describe('DetailsCvComponent', () => {
         provideRouter([]),
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id: '1' } } },
+          useValue: { paramMap: of(convertToParamMap({ id: '1' })) },
         },
         {
           provide: CvService,

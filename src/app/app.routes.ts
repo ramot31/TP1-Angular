@@ -1,48 +1,88 @@
 import { Routes } from "@angular/router";
-import { TodoComponent } from "./todo/todo/todo.component";
-import { MiniWordComponent } from "./directives/mini-word/mini-word.component";
-import { ColorComponent } from "./components/color/color.component";
 import { FrontComponent } from "./templates/front/front.component";
-import { AdminComponent } from "./templates/admin/admin.component";
-import { LoginComponent } from "./auth/login/login.component";
 import { NF404Component } from "./components/nf404/nf404.component";
-import { AuthGuard } from "./auth/guards/auth.guard";
-import { AddCvComponent } from "./cv/add-cv/add-cv.component";
-import { CvComponent } from "./cv/cv/cv.component";
-import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
-import { RhComponent } from "./optimizationPattern/rh/rh.component";
-import { RainbowInputComponent } from "./components/rainbow-input/rainbow-input.component";
-import { TtcComponent } from "./components/ttc/ttc.component";
-import { CountryCurrencySelectorComponent } from "./tp2/currency-selector/country-currency-selector.component";
-import { ProductsFilterComponent } from "./tp2/products-filter/products-filter.component";
-import { AutocompleteComponent } from "./cv/autocomplete/autocomplete.component";
 
 export const routes: Routes = [
-  { path: "login", component: LoginComponent },
-  { path: "rh", component: RhComponent },
-  { path: "rainbow", component: RainbowInputComponent },
-  { path: "ttc", component: TtcComponent },
-  { path: "tp2/currency", component: CountryCurrencySelectorComponent },
-  { path: "tp2/filter", component: ProductsFilterComponent },
-  { path: "tp2/autocomplete", component: AutocompleteComponent },
+  {
+    path: "login",
+    loadComponent: () =>
+      import("./auth/login/login.component").then((m) => m.LoginComponent),
+    data: { preload: true },
+  },
+  {
+    path: "rh",
+    loadComponent: () =>
+      import("./optimizationPattern/rh/rh.component").then((m) => m.RhComponent),
+  },
+  {
+    path: "rainbow",
+    loadComponent: () =>
+      import("./components/rainbow-input/rainbow-input.component").then(
+        (m) => m.RainbowInputComponent,
+      ),
+  },
+  {
+    path: "ttc",
+    loadComponent: () =>
+      import("./components/ttc/ttc.component").then((m) => m.TtcComponent),
+  },
+  {
+    path: "tp2/currency",
+    loadComponent: () =>
+      import("./tp2/currency-selector/country-currency-selector.component").then(
+        (m) => m.CountryCurrencySelectorComponent,
+      ),
+  },
+  {
+    path: "tp2/filter",
+    loadComponent: () =>
+      import("./tp2/products-filter/products-filter.component").then(
+        (m) => m.ProductsFilterComponent,
+      ),
+  },
+  {
+    path: "tp2/autocomplete",
+    loadComponent: () =>
+      import("./cv/autocomplete/autocomplete.component").then(
+        (m) => m.AutocompleteComponent,
+      ),
+  },
   {
     path: "cv",
-    component: CvComponent,
+    loadChildren: () => import("./cv/cv.routes").then((m) => m.CV_ROUTES),
+    data: { preload: true },
   },
-  { path: "cv/add", component: AddCvComponent, canActivate: [AuthGuard] },
-  { path: "cv/:id", component: DetailsCvComponent },
   {
     path: "",
     component: FrontComponent,
     children: [
-      { path: "todo", component: TodoComponent },
-      { path: "word", component: MiniWordComponent },
+      {
+        path: "todo",
+        loadComponent: () =>
+          import("./todo/todo/todo.component").then((m) => m.TodoComponent),
+      },
+      {
+        path: "word",
+        loadComponent: () =>
+          import("./directives/mini-word/mini-word.component").then(
+            (m) => m.MiniWordComponent,
+          ),
+      },
     ],
   },
   {
     path: "admin",
-    component: AdminComponent,
-    children: [{ path: "color", component: ColorComponent }],
+    loadComponent: () =>
+      import("./templates/admin/admin.component").then((m) => m.AdminComponent),
+    children: [
+      {
+        path: "color",
+        loadComponent: () =>
+          import("./components/color/color.component").then(
+            (m) => m.ColorComponent,
+          ),
+      },
+    ],
   },
   { path: "**", component: NF404Component },
 ];
