@@ -1,3 +1,77 @@
-<form [formGroup]="form">
-  <input type="text" class="form-control" formControlName="search" />
-</form>
+<div class="autocomplete">
+  <label class="form-label" for="cv-search">Rechercher un CV par nom</label>
+  <input
+    id="cv-search"
+    type="search"
+    class="form-control"
+    placeholder="Saisissez un nom"
+    [value]="searchTerm()"
+    (input)="updateSearchTerm($any($event.target).value)"
+    autocomplete="off"
+    aria-controls="cv-search-results"
+  />
+
+  @if (showResults()) {
+    <div id="cv-search-results" class="autocomplete-results" aria-live="polite">
+      @if (isLoading()) {
+        <p class="autocomplete-message">Recherche en cours…</p>
+      } @else if (cvsResource.error()) {
+        <p class="autocomplete-message autocomplete-error" role="alert">
+          La recherche a échoué. Veuillez réessayer.
+        </p>
+      } @else if (cvs().length === 0) {
+        <p class="autocomplete-message">Aucun CV ne correspond à cette recherche.</p>
+      } @else {
+        <div class="list-group">
+          @for (cv of cvs(); track cv.id) {
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+              (click)="selectCv(cv)"
+            >
+              <img
+                class="autocomplete-avatar me-2"
+                [src]="'assets/images/' + (cv.path | defaultImage)"
+                [alt]="cv.firstname + ' ' + cv.name"
+              />
+              <span>
+                <strong>{{ cv.firstname }} {{ cv.name }}</strong>
+                <small class="d-block text-muted">{{ cv.job }}</small>
+              </span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (selectedCv(); as cv) {
+  <section class="cv-details mt-4" aria-live="polite">
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-secondary float-end"
+      (click)="clearSelection()"
+      aria-label="Fermer les détails"
+    >
+      Fermer
+    </button>
+    <h4 class="text-center">CV {{ cv.firstname }} {{ cv.name }}</h4>
+    <div class="d-flex justify-content-center my-3">
+      <img
+        class="rounded-circle cv-avatar"
+        [src]="'assets/images/' + (cv.path | defaultImage)"
+        [alt]="cv.firstname + ' ' + cv.name"
+      />
+    </div>
+    <table class="table table-hover table-striped">
+      <tbody>
+        <tr><td><strong>Nom</strong> {{ cv.name }}</td></tr>
+        <tr><td><strong>Prénom</strong> {{ cv.firstname }}</td></tr>
+        <tr><td><strong>Métier</strong> {{ cv.job }}</td></tr>
+        <tr><td><strong>Âge</strong> {{ cv.age }}</td></tr>
+        <tr><td><strong>CIN</strong> {{ cv.cin }}</td></tr>
+      </tbody>
+    </table>
+  </section>
+}

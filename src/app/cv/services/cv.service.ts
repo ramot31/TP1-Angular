@@ -10,39 +10,25 @@ import { API } from "../../../config/api.config";
 export class CvService {
   private http = inject(HttpClient);
 
-  /**
-   * La liste fictive de cvs, utilisée si le serveur ne répond pas
-   */
+  /** La liste fictive utilisée si le serveur ne répond pas. */
   #fakeCvs: Cv[] = [
     new Cv(1, "aymen", "sellaouti", "teacher", "as.jpg", "1234", 40),
     new Cv(2, "skander", "sellaouti", "enfant", "       ", "1234", 4),
   ];
 
-  /**
-   * La liste des cvs (modifiable uniquement dans ce service)
-   */
+  /** Liste interne des CV, exposée uniquement en lecture. */
   #cvs = signal<Cv[]>([]);
-  /**
-   * La liste des cvs en lecture seule pour les composants
-   */
   cvs = this.#cvs.asReadonly();
 
-  /**
-   * Le cv sélectionné (null si aucun cv n'est sélectionné)
-   */
+  /** CV sélectionné, ou null lorsqu'aucun CV n'est sélectionné. */
   #selectedCv = signal<Cv | null>(null);
   selectedCv = this.#selectedCv.asReadonly();
 
-  /**
-   * true si la liste affichée contient les cvs fictifs (problème serveur)
-   */
+  /** Indique que la liste affichée est une solution de secours locale. */
   #isFakeData = signal(false);
   isFakeData = this.#isFakeData.asReadonly();
 
-  /**
-   * Charge les cvs de l'API et les range dans le signal cvs.
-   * En cas d'erreur, on met les cvs fictifs.
-   */
+  /** Charge les CV de l'API et utilise les données locales en cas d'erreur. */
   loadCvs(): void {
     this.#isFakeData.set(false);
     this.getCvs().subscribe({
@@ -121,10 +107,16 @@ export class CvService {
    * @param name : string
    * @returns cvs Cv[]
    */
-  selectByName(name: string) {
-    const search = `{"where":{"name":{"like":"%${name}%"}}}`;
-    const params = new HttpParams().set("filter", search);
-    return this.http.get<any>(API.cv, { params });
+  selectByName(name: string): Observable<Cv[]> {
+    const filter = {
+      where: {
+        name: {
+          like: `%${name}%`,
+        },
+      },
+    };
+    const params = new HttpParams().set("filter", JSON.stringify(filter));
+    return this.http.get<Cv[]>(API.cv, { params });
   }
   /**
    * Recherche les cvs dont la valeur est égale à la chaine passée en paramètre
@@ -145,5 +137,9 @@ export class CvService {
    */
   selectCv(cv: Cv): void {
     this.#selectedCv.set(cv);
+  }
+
+  clearSelectedCv(): void {
+    this.#selectedCv.set(null);
   }
 }

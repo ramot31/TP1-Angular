@@ -15,6 +15,7 @@ import { RainbowInputComponent } from "./components/rainbow-input/rainbow-input.
 import { TtcComponent } from "./components/ttc/ttc.component";
 import { CountryCurrencySelectorComponent } from "./tp2/currency-selector/country-currency-selector.component";
 import { ProductsFilterComponent } from "./tp2/products-filter/products-filter.component";
+import { AutocompleteComponent } from "./cv/autocomplete/autocomplete.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: "ttc", component: TtcComponent },
   { path: "tp2/currency", component: CountryCurrencySelectorComponent },
   { path: "tp2/filter", component: ProductsFilterComponent },
+  { path: "tp2/autocomplete", component: AutocompleteComponent },
   {
     path: "cv",
     component: CvComponent,
